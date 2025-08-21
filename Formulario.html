@@ -4,16 +4,27 @@
   <meta charset="UTF-8">
   <title>Confirmación 15 Años</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f8f8f8; padding: 20px; }
-    .persona { background: #fff; padding: 15px; margin: 10px 0; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    label { display: block; margin-top: 10px; }
-    button { margin-top: 20px; padding: 10px 20px; border: none; background: #ff66b2; color: #fff; font-weight: bold; border-radius: 8px; cursor: pointer; }
-    button:hover { background: #e0559c; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      padding: 20px;
+    }
+    .persona {
+      background: #fff;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
-  <h2>Confirmá tu asistencia 🎉</h2>
- <h2>JANET</h2>
+  <h2>Confirmá tu asistencia</h2>
+
   <label for="cantidad">¿Por cuántas personas confirmás?</label>
   <select id="cantidad" onchange="generarCampos()">
     <option value="0">Seleccionar...</option>
@@ -23,22 +34,17 @@
     <option value="4">4 personas</option>
   </select>
 
-  <!-- IMPORTANTE: action apunta a FormSubmit -->
-  <form id="formulario" method="POST" action="https://formsubmit.co/el/lutedo">
+  <form id="formulario">
     <div id="contenedor"></div>
-    
-    <!-- Opciones extra de FormSubmit -->
-    <input type="hidden" name="_captcha" value="false"> <!-- evita el captcha -->
-    <input type="hidden" name="_subject" value="Nueva confirmación de asistencia"> <!-- asunto del mail -->
-    
-    <button type="submit">Enviar confirmación</button>
+
+    <button type="submit">Enviar</button>
   </form>
 
   <script>
     function generarCampos() {
       const cantidad = document.getElementById("cantidad").value;
       const contenedor = document.getElementById("contenedor");
-      contenedor.innerHTML = "";
+      contenedor.innerHTML = ""; // limpiar antes de generar
 
       for (let i = 1; i <= cantidad; i++) {
         let div = document.createElement("div");
@@ -51,15 +57,25 @@
           <input type="text" name="dni${i}" required>
           <label>Requerimiento alimenticio:</label>
           <select name="comida${i}">
-            <option value="Ninguno">Ninguno</option>
-            <option value="Vegetariano">Vegetariano</option>
-            <option value="Vegano">Vegano</option>
-            <option value="Celíaco">Celíaco</option>
+            <option value="ninguno">Ninguno</option>
+            <option value="vegetariano">Vegetariano</option>
+            <option value="vegano">Vegano</option>
+            <option value="celiaco">Celíaco</option>
           </select>
         `;
         contenedor.appendChild(div);
       }
     }
+
+    // Ejemplo de envío (por ahora muestra en consola)
+    document.getElementById("formulario").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const datos = new FormData(this);
+      for (let [clave, valor] of datos.entries()) {
+        console.log(clave + ": " + valor);
+      }
+      alert("Formulario enviado (acá se podría conectar a email o planilla).");
+    });
   </script>
 </body>
 </html>
